@@ -4,7 +4,7 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import (
     KubernetesPodOperator,
 )
-from airflow.providers.amazon.aws.hooks.eks import ClusterStates, NodegroupStates
+from airflow.providers.amazon.aws.hooks.eks import (ClusterStates, NodegroupStates)
 from airflow.providers.amazon.aws.operators.eks import (
     EKSCreateClusterOperator,
     EKSCreateNodegroupOperator,
@@ -12,7 +12,7 @@ from airflow.providers.amazon.aws.operators.eks import (
     EKSDeleteNodegroupOperator,
     EKSPodOperator,
 )
-from airflow.providers.amazon.aws.sensors.eks import EKSClusterStateSensor, EKSNodegroupStateSensor
+from airflow.providers.amazon.aws.sensors.eks import (EKSClusterStateSensor, EKSNodegroupStateSensor)
 from airflow.utils.dates import days_ago
 
 default_args = {
