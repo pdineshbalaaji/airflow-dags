@@ -56,9 +56,9 @@ with DAG(
         image="amazon/aws-cli:latest",
         cmds=["sh", "-c", "ls"],
         labels={"demo": "hello_world"},
-        get_logs=True,
+        #get_logs=True,
         # Delete the pod when it reaches its final state, or the execution is interrupted.
-        is_delete_operator_pod=False,
+        is_delete_operator_pod=True,
     )
 
 this_will_skip = BashOperator(
