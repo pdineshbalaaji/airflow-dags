@@ -63,7 +63,7 @@ with DAG(
 
     await_create_cluster = EksClusterStateSensor(
         task_id="await_create_cluster",
-        cluster_name=cluster_name,
+        cluster_name='self-managed-airflow',
         target_state=ClusterStates.ACTIVE,
     )
 
