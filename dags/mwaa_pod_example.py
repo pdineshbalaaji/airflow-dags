@@ -1,5 +1,6 @@
 from airflow import DAG
 from datetime import datetime
+from airflow.operators.bash_operator import BashOperator
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import (
     KubernetesPodOperator,
 )
@@ -30,4 +31,10 @@ podRun = KubernetesPodOperator(
     config_file=kube_config_path,
     in_cluster=False,
     cluster_context="mwaa", # Must match kubeconfig context
+)
+
+this_will_skip = BashOperator(
+    task_id='this_will_skip',
+    bash_command='echo "hello world"; exit 99;',
+    dag=dag,
 )
