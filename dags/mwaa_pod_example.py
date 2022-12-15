@@ -4,7 +4,7 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import (
     KubernetesPodOperator,
 )
-from airflow.providers.amazon.aws.hooks.eks import (ClusterStates, NodegroupStates)
+from airflow.providers.amazon.aws.hooks.eks import ClusterStates, NodegroupStates
 from airflow.providers.amazon.aws.operators.eks import (
     EKSCreateClusterOperator,
     EKSCreateNodegroupOperator,
@@ -12,7 +12,7 @@ from airflow.providers.amazon.aws.operators.eks import (
     EKSDeleteNodegroupOperator,
     EKSPodOperator,
 )
-from airflow.providers.amazon.aws.sensors.eks import (EKSClusterStateSensor, EKSNodegroupStateSensor)
+from airflow.providers.amazon.aws.sensors.eks import EKSClusterStateSensor, EKSNodegroupStateSensor
 from airflow.utils.dates import days_ago
 
 default_args = {
@@ -49,22 +49,16 @@ with DAG(
     max_active_runs=1,
     tags=['example'],
 ) as dag:
-    # start_pod = EKSPodOperator(
-    #     task_id="run_pod",
-    #     pod_name='self-managed-airflow',
-    #     cluster_name="managed-airflow-mwaa",
-    #     image="amazon/aws-cli:latest",
-    #     cmds=["sh", "-c", "ls"],
-    #     labels={"demo": "hello_world"},
-    #     get_logs=True,
-    #     # Delete the pod when it reaches its final state, or the execution is interrupted.
-    #     is_delete_operator_pod=False,
-    # )
-
-    await_create_cluster = EksClusterStateSensor(
-        task_id="await_create_cluster",
-        cluster_name='self-managed-airflow',
-        target_state=ClusterStates.ACTIVE,
+    start_pod = EKSPodOperator(
+        task_id="run_pod",
+        pod_name='self-managed-airflow',
+        cluster_name="managed-airflow-mwaa",
+        image="amazon/aws-cli:latest",
+        cmds=["sh", "-c", "ls"],
+        labels={"demo": "hello_world"},
+        get_logs=True,
+        # Delete the pod when it reaches its final state, or the execution is interrupted.
+        is_delete_operator_pod=False,
     )
 
 this_will_skip = BashOperator(
