@@ -42,24 +42,19 @@ kube_config_path = "/opt/airflow/dags/repo/dags/kube_config.yaml"
 #     in_cluster=False,
 #     cluster_context="mwaa", # Must match kubeconfig context
 # )
-with DAG(
-    dag_id='example_eks_with_nodegroups_dag',
-    schedule_interval=None,
-    start_date=days_ago(2),
-    max_active_runs=1,
-    tags=['example'],
-) as dag:
-    start_pod = EKSPodOperator(
-        task_id="run_pod",
-        pod_name='self-managed-airflow',
-        cluster_name="managed-airflow-mwaa",
-        image="amazon/aws-cli:latest",
-        cmds=["sh", "-c", "ls"],
-        labels={"demo": "hello_world"},
-        #get_logs=True,
-        # Delete the pod when it reaches its final state, or the execution is interrupted.
-        is_delete_operator_pod=True,
-    )
+
+start_pod = EKSPodOperator(
+    task_id="run_pod",
+    pod_name='self-managed-airflow',
+    cluster_name="managed-airflow-mwaa",
+    image="amazon/aws-cli:latest",
+    cmds=["sh", "-c", "ls"],
+    labels={"demo": "hello_world"},
+    #get_logs=True,
+    # Delete the pod when it reaches its final state, or the execution is interrupted.
+    is_delete_operator_pod=True,
+    dag=dag,
+)
 
 this_will_skip = BashOperator(
     task_id='this_will_skip',
