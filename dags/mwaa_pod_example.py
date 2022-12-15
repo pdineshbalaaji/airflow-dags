@@ -43,23 +43,23 @@ kube_config_path = "/opt/airflow/dags/repo/dags/kube_config.yaml"
 #     cluster_context="mwaa", # Must match kubeconfig context
 # )
 
-# start_pod = EKSPodOperator(
-#     task_id="run_pod",
-#     pod_name='self-managed-airflow',
-#     cluster_name="managed-airflow-mwaa",
-#     image="amazon/aws-cli:latest",
-#     cmds=["sh", "-c", "ls"],
-#     labels={"demo": "hello_world"},
-#     #get_logs=True,
-#     # Delete the pod when it reaches its final state, or the execution is interrupted.
-#     is_delete_operator_pod=True,
-#     dag=dag,
-# )
+start_pod = EKSPodOperator(
+    task_id="run_pod",
+    pod_name='self-managed-airflow-trigger',
+    cluster_name="self-managed-airflow",
+    image="amazon/aws-cli:latest",
+    cmds=["sh", "-c", "ls"],
+    labels={"demo": "hello_world"},
+    #get_logs=True,
+    # Delete the pod when it reaches its final state, or the execution is interrupted.
+    is_delete_operator_pod=True,
+    dag=dag,
+)
 
 run_on_EKS=KubernetesPodOperator(
     task_id="run_on_EKS",
-    cluster_context='<arn of your cluster>',
-    namespace="airflow-kpo-default",
+    cluster_context='arn:aws:eks:us-west-2:859006846143:cluster/self-managed-airflow',
+    namespace="airflow",
     name="example_pod",
     image='ubuntu',
     cmds=['bash', '-cx'],
@@ -72,8 +72,8 @@ run_on_EKS=KubernetesPodOperator(
     dag=dag,
 )
 
-# this_will_skip = BashOperator(
-#     task_id='this_will_skip',
-#     bash_command='aws;aws --region=us-west-2 eks get-token --cluster-name=managed-airflow-mwaa;echo "hello world"; exit 99;',
-#     dag=dag,
-# )
+this_will_skip = BashOperator(
+    task_id='this_will_skip',
+    bash_command='aws;aws --region=us-west-2 eks get-token --cluster-name=managed-airflow-mwaa;echo "hello world"; exit 99;',
+    dag=dag,
+)
