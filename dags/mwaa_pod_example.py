@@ -43,16 +43,32 @@ kube_config_path = "/opt/airflow/dags/repo/dags/kube_config.yaml"
 #     cluster_context="mwaa", # Must match kubeconfig context
 # )
 
-start_pod = EKSPodOperator(
-    task_id="run_pod",
-    pod_name='self-managed-airflow',
-    cluster_name="managed-airflow-mwaa",
-    image="amazon/aws-cli:latest",
-    cmds=["sh", "-c", "ls"],
-    labels={"demo": "hello_world"},
-    #get_logs=True,
-    # Delete the pod when it reaches its final state, or the execution is interrupted.
-    is_delete_operator_pod=True,
+# start_pod = EKSPodOperator(
+#     task_id="run_pod",
+#     pod_name='self-managed-airflow',
+#     cluster_name="managed-airflow-mwaa",
+#     image="amazon/aws-cli:latest",
+#     cmds=["sh", "-c", "ls"],
+#     labels={"demo": "hello_world"},
+#     #get_logs=True,
+#     # Delete the pod when it reaches its final state, or the execution is interrupted.
+#     is_delete_operator_pod=True,
+#     dag=dag,
+# )
+
+run_on_EKS=KubernetesPodOperator(
+    task_id="run_on_EKS",
+    cluster_context='<arn of your cluster>',
+    namespace="airflow-kpo-default",
+    name="example_pod",
+    image='ubuntu',
+    cmds=['bash', '-cx'],
+    arguments=["echo hello"],
+    get_logs=True,
+    is_delete_operator_pod=False,
+    in_cluster=False,
+    #config_file='/usr/local/airflow/include/config',
+    startup_timeout_seconds=240,
     dag=dag,
 )
 
