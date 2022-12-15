@@ -67,7 +67,7 @@ run_on_EKS=KubernetesPodOperator(
     get_logs=True,
     is_delete_operator_pod=False,
     in_cluster=False,
-    #config_file='/usr/local/airflow/include/config',
+    config_file=kube_config_path,
     startup_timeout_seconds=240,
     dag=dag,
 )
