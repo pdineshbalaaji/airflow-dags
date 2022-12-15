@@ -49,16 +49,22 @@ with DAG(
     max_active_runs=1,
     tags=['example'],
 ) as dag:
-    start_pod = EKSPodOperator(
-        task_id="run_pod",
-        pod_name='self-managed-airflow',
-        cluster_name="managed-airflow-mwaa",
-        image="amazon/aws-cli:latest",
-        cmds=["sh", "-c", "ls"],
-        labels={"demo": "hello_world"},
-        get_logs=True,
-        # Delete the pod when it reaches its final state, or the execution is interrupted.
-        is_delete_operator_pod=False,
+    # start_pod = EKSPodOperator(
+    #     task_id="run_pod",
+    #     pod_name='self-managed-airflow',
+    #     cluster_name="managed-airflow-mwaa",
+    #     image="amazon/aws-cli:latest",
+    #     cmds=["sh", "-c", "ls"],
+    #     labels={"demo": "hello_world"},
+    #     get_logs=True,
+    #     # Delete the pod when it reaches its final state, or the execution is interrupted.
+    #     is_delete_operator_pod=False,
+    # )
+
+    await_create_cluster = EksClusterStateSensor(
+        task_id="await_create_cluster",
+        cluster_name=cluster_name,
+        target_state=ClusterStates.ACTIVE,
     )
 
 this_will_skip = BashOperator(
