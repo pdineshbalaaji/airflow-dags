@@ -51,7 +51,7 @@ with DAG(
 ) as dag:
     start_pod = EKSPodOperator(
         task_id="run_pod",
-        pod_name='self-managed-trigger',
+        pod_name='self-managed-airflow',
         cluster_name="managed-airflow-mwaa",
         image="amazon/aws-cli:latest",
         cmds=["sh", "-c", "ls"],
