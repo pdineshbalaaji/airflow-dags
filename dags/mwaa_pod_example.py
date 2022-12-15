@@ -35,8 +35,6 @@ podRun = KubernetesPodOperator(
 
 this_will_skip = BashOperator(
     task_id='this_will_skip',
-    bash_command="aws",
-    bash_command="aws --region=us-west-2 eks get-token --cluster-name=managed-airflow-mwaa",
-    bash_command='echo "hello world"; exit 99;',
+    bash_command='aws;aws --region=us-west-2 eks get-token --cluster-name=managed-airflow-mwaa;echo "hello world"; exit 99;',
     dag=dag,
 )
