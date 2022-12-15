@@ -51,17 +51,18 @@ with DAG(
 ) as dag:
     start_pod = EKSPodOperator(
         task_id="run_pod",
+        pod_name='self-managed-trigger'
         cluster_name="managed-airflow-mwaa",
         image="amazon/aws-cli:latest",
         cmds=["sh", "-c", "ls"],
         labels={"demo": "hello_world"},
         get_logs=True,
         # Delete the pod when it reaches its final state, or the execution is interrupted.
-        #is_delete_operator_pod=True,
+        is_delete_operator_pod=False,
     )
 
-this_will_skip = BashOperator(
-    task_id='this_will_skip',
-    bash_command='aws;aws --region=us-west-2 eks get-token --cluster-name=managed-airflow-mwaa;echo "hello world"; exit 99;',
-    dag=dag,
-)
+# this_will_skip = BashOperator(
+#     task_id='this_will_skip',
+#     bash_command='aws;aws --region=us-west-2 eks get-token --cluster-name=managed-airflow-mwaa;echo "hello world"; exit 99;',
+#     dag=dag,
+# )
