@@ -13,6 +13,7 @@ from airflow.providers.amazon.aws.operators.eks import (
     EKSPodOperator,
 )
 from airflow.providers.amazon.aws.sensors.eks import EKSClusterStateSensor, EKSNodegroupStateSensor
+from airflow.utils.dates import days_ago
 
 default_args = {
     "owner": "aws",
