@@ -56,8 +56,8 @@ start_pod = EKSPodOperator(
     dag=dag,
 )
 
-this_will_skip = BashOperator(
-    task_id='this_will_skip',
-    bash_command='aws;aws --region=us-west-2 eks get-token --cluster-name=managed-airflow-mwaa;echo "hello world"; exit 99;',
-    dag=dag,
-)
+# this_will_skip = BashOperator(
+#     task_id='this_will_skip',
+#     bash_command='aws;aws --region=us-west-2 eks get-token --cluster-name=managed-airflow-mwaa;echo "hello world"; exit 99;',
+#     dag=dag,
+# )
