@@ -57,7 +57,7 @@ with DAG(
         labels={"demo": "hello_world"},
         get_logs=True,
         # Delete the pod when it reaches its final state, or the execution is interrupted.
-        is_delete_operator_pod=True,
+        #is_delete_operator_pod=True,
     )
 
 this_will_skip = BashOperator(
