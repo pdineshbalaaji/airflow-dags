@@ -111,8 +111,8 @@ def stream_to_S3_fn(result, filename):
     # with open(s3_file, 'wb') as write_io:
     # while True:
     chunk = result.fetchmany(REC_COUNT)
-    if not chunk:
-        break
+    # if not chunk:
+    #     break
     f = StringIO(outfileStr)
     w = csv.writer(f)
     w.writerows(chunk)
