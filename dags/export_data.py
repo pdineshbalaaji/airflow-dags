@@ -55,7 +55,7 @@ ti.operator, ti.queued_dttm, ti.pid, ti.max_tries, '\\x' || encode(ti.executor_c
 ti.pool_slots, ti.queued_by_job_id, ti.external_executor_id, null as trigger_id ,\
  null as trigger_timeout, null as next_method, null as next_kwargs, r.run_id as run_id \
  from task_instance ti, dag_run r where r.dag_id = ti.dag_id AND \
-  r.execution_date = ti.execution_date"
+  r.run_id = ti.run_id"
 
 LOG_SELECT = "select dttm, dag_id, task_id, event, execution_date, owner, extra from log"
 
