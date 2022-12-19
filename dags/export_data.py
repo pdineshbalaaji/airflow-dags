@@ -26,6 +26,7 @@ from sqlalchemy import text
 import csv
 import re
 from io import StringIO
+import os
 #from smart_open import open
 
 """
@@ -94,6 +95,7 @@ OBJECTS_TO_EXPORT = [
 
 
 def stream_to_S3_fn(result, filename):
+    print(cos.getcwd())
     print("{filename}")
     s3_file = "./{S3_BUCKET}/{S3_KEY}{filename}.csv"
     # only get 10K rows at a time
