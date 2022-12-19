@@ -110,7 +110,7 @@ def stream_to_S3_fn(result, filename):
     # print
     # with open(s3_file, 'wb') as write_io:
     # while True:
-    chunk = result.fetchmany(REC_COUNT)
+    chunk = result.fetchall()
     # if not chunk:
     #     break
     f = StringIO(outfileStr)
