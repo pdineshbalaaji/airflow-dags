@@ -114,8 +114,8 @@ def stream_to_S3_fn(result, filename):
         f = StringIO(outfileStr)
         w = csv.writer(f)
         w.writerows(chunk)
-        write_io.write(f.getvalue().encode("utf8"))
-    write_io.close()
+    #     write_io.write(f.getvalue().encode("utf8"))
+    # write_io.close()
     s3.put_object(Bucket=S3_BUCKET+'/'+S3_KEY, Key=filename+'.csv', Body=f.getvalue())
 # pause all active dags to have consistend and reliable copy of dag history exports
 
