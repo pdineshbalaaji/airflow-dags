@@ -147,6 +147,7 @@ def export_variable():
     query = session.query(Variable)
     allrows = query.all()
     k = ["key", "val", "is_encrypted", "description"]
+     print('this is here!!', str(allrows))
     if len(allrows) > 0:
         outfileStr = ""
         f = StringIO(outfileStr)
