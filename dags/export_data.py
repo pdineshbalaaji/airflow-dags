@@ -109,16 +109,16 @@ def stream_to_S3_fn(result, filename):
     #     print(row[0])
     # print
     # with open(s3_file, 'wb') as write_io:
-    while True:
-        chunk = result.fetchmany(REC_COUNT)
-        if not chunk:
-            break
-        f = StringIO(outfileStr)
-        w = csv.writer(f)
-        w.writerows(chunk)
-    #     write_io.write(f.getvalue().encode("utf8"))
-    # write_io.close()
-        s3_client.put_object(Bucket=S3_BUCKET+'/'+S3_KEY, Key=filename+'.csv', Body=f.getvalue())
+    # while True:
+    chunk = result.fetchmany(REC_COUNT)
+    if not chunk:
+        break
+    f = StringIO(outfileStr)
+    w = csv.writer(f)
+    w.writerows(chunk)
+#     write_io.write(f.getvalue().encode("utf8"))
+# write_io.close()
+    s3_client.put_object(Bucket=S3_BUCKET+'/'+S3_KEY, Key=filename+'.csv', Body=f.getvalue())
 # pause all active dags to have consistend and reliable copy of dag history exports
 
 
