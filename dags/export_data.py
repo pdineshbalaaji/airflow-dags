@@ -98,16 +98,18 @@ def stream_to_S3_fn(result, filename):
     # only get 10K rows at a time
     REC_COUNT = 5000
     outfileStr = ""
-    with open(s3_file, 'wb') as write_io:
-        while True:
-            chunk = result.fetchmany(REC_COUNT)
-            if not chunk:
-                break
-            f = StringIO(outfileStr)
-            w = csv.writer(f)
-            w.writerows(chunk)
-            write_io.write(f.getvalue().encode("utf8"))
-        write_io.close()
+    print(result[0])
+    # print
+    # with open(s3_file, 'wb') as write_io:
+    #     while True:
+    #         chunk = result.fetchmany(REC_COUNT)
+    #         if not chunk:
+    #             break
+    #         f = StringIO(outfileStr)
+    #         w = csv.writer(f)
+    #         w.writerows(chunk)
+    #         write_io.write(f.getvalue().encode("utf8"))
+    #     write_io.close()
 
 # pause all active dags to have consistend and reliable copy of dag history exports
 
