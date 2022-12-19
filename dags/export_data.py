@@ -100,7 +100,7 @@ def stream_to_S3_fn(result, filename):
     outfileStr = ""
     results = result.fetchall();
     for row in result:
-    print(row[0])
+        print(row[0])
     # print
     # with open(s3_file, 'wb') as write_io:
     #     while True:
