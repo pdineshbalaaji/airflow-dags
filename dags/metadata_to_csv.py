@@ -16,7 +16,7 @@ S3_KEY = 'files/export/{0}.csv'
 # You can add other objects to export from the metadatabase,
 OBJECTS_TO_EXPORT = [
     [DagRun,DagRun.execution_date], 
-    [TaskFail,TaskFail.execution_date], 
+    [TaskFail,TaskFail.run_id], 
     [TaskInstance, TaskInstance.execution_date],
 ]
  
