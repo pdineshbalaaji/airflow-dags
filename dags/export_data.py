@@ -45,7 +45,7 @@ dag_id = 'db_export'
 # e165e7455d70	90d1635d7b86	2.1.0	Add description field to Variable model
 
 
-DAG_RUN_SELECT = "select dag_id, execution_date, state, run_id, external_trigger, \
+DAG_RUN_SELECT = "select dag_id, state, run_id, external_trigger, \
 '\\x' || encode(conf,'hex') as conf, end_date,start_date, run_type, last_scheduling_decision, \
  dag_hash, creating_job_id, null as queued_at, null as data_interval_start, null as data_interval_end  from dag_run"
 
@@ -57,7 +57,7 @@ ti.pool_slots, ti.queued_by_job_id, ti.external_executor_id, null as trigger_id 
  from task_instance ti, dag_run r where r.dag_id = ti.dag_id AND \
   r.run_id = ti.run_id"
 
-LOG_SELECT = "select dttm, dag_id, task_id, event, execution_date, owner, extra from log"
+LOG_SELECT = "select dttm, dag_id, task_id, event, owner, extra from log"
 
 TASK_FAIL_SELECT = "select task_id, dag_id, run_id, \
  start_date, end_date, duration from task_fail"
