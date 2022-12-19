@@ -100,6 +100,9 @@ def stream_to_S3_fn(result, filename):
     outfileStr = ""
     results = result.fetchall();
     print('this is here!!', str(results))
+    print('header', vars(results[0]).keys())
+    for y in allrows:
+        print('data', vars(y))
     for row in result:
         print(row[0])
     # print
