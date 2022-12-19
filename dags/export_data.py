@@ -26,7 +26,7 @@ from sqlalchemy import text
 import csv
 import re
 from io import StringIO
-#from smart_open import open
+from smart_open import open
 
 """
 The module iterates through the list of sql statement and table, reads data and stores in S3 as csv file.
