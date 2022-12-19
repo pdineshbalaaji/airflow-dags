@@ -98,13 +98,13 @@ def stream_to_S3_fn(result, filename):
     # only get 10K rows at a time
     REC_COUNT = 5000
     outfileStr = ""
-    results = result.fetchall();
-    print('this is here!!', str(results))
-    # print('header', vars(results[0]).keys())
-    for y in result:
-        print('data', vars(y))
-    for row in result:
-        print(row[0])
+    # results = result.fetchall();
+    # print('this is here!!', str(results))
+    # # print('header', vars(results[0]).keys())
+    # for y in result:
+    #     print('data', vars(y))
+    # for row in result:
+    #     print(row[0])
     # print
     # with open(s3_file, 'wb') as write_io:
     while True:
