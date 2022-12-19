@@ -94,6 +94,7 @@ OBJECTS_TO_EXPORT = [
 
 
 def stream_to_S3_fn(result, filename):
+    print("{filename}")
     s3_file = "./{S3_BUCKET}/{S3_KEY}{filename}.csv"
     # only get 10K rows at a time
     REC_COUNT = 5000
