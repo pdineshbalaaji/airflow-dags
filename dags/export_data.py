@@ -94,31 +94,23 @@ OBJECTS_TO_EXPORT = [
 
 
 def stream_to_S3_fn(result, filename):
-    s3_file = f"s3://{S3_BUCKET}/{S3_KEY}{filename}.csv"
+    s3_file = "./{S3_BUCKET}/{S3_KEY}{filename}.csv"
     # only get 10K rows at a time
     REC_COUNT = 5000
     outfileStr = ""
-    s3_hook = S3Hook()
-    s3_client = s3_hook.get_conn()
-    # results = result.fetchall();
-    # print('this is here!!', str(results))
-    # # print('header', vars(results[0]).keys())
-    # for y in result:
-    #     print('data', vars(y))
-    # for row in result:
-    #     print(row[0])
-    # print
-    # with open(s3_file, 'wb') as write_io:
-    # while True:
-    chunk = result.fetchall()
-    # if not chunk:
-    #     break
-    f = StringIO(outfileStr)
-    w = csv.writer(f)
-    w.writerows(chunk)
-#     write_io.write(f.getvalue().encode("utf8"))
-# write_io.close()
-    s3_client.put_object(Bucket=S3_BUCKET+'/'+S3_KEY, Key=filename+'.csv', Body=f.getvalue())
+    with open(s3_file, 'wb') as write_io:
+        while True:
+            chunk = result.fetchmany(REC_COUNT)
+            if not chunk:
+                break
+            f = StringIO(outfileStr)
+            w = csv.writer(f)
+            w.writerows(chunk)
+            write_io.write(f.getvalue().encode("utf8"))
+        write_io.close()
+    # s3_client.put_object(Bucket=S3_BUCKET+'/'+S3_KEY, Key=filename+'.csv', Body=f.getvalue())/
+    s3_client.load_file(filename=s3_file, key=S3_KEY+filename+'.csv', bucket_name=S3_BUCKET)
+
 # pause all active dags to have consistend and reliable copy of dag history exports
 
 
