@@ -10,13 +10,13 @@ from io import StringIO
 DAG_ID = os.path.basename(__file__).replace(".py", "")
 
 MAX_AGE_IN_DAYS = 30 
-S3_BUCKET = 'mwaa-managed-airflow-metadata-backup'
+S3_BUCKET = 'self-managed-airflow-metadata-backup'
 S3_KEY = 'files/export/{0}.csv' 
 
 # You can add other objects to export from the metadatabase,
 OBJECTS_TO_EXPORT = [
     [DagRun,DagRun.execution_date], 
-    [TaskFail,TaskFail.run_id], 
+    [TaskFail,TaskFail.start_date], 
     [TaskInstance, TaskInstance.execution_date],
 ]
  
@@ -31,7 +31,7 @@ def export_db_task(**kwargs):
     s3 = boto3.client('s3')
 
     for x in OBJECTS_TO_EXPORT:
-        query = session.query(x[0]).filter(x[1] > days_ago(MAX_AGE_IN_DAYS))
+        query = session.query(x[0]).filter(x[1] >= days_ago(MAX_AGE_IN_DAYS))
         print("type",type(query))
         allrows=query.all()
         name=re.sub("[<>']", "", str(x[0]))
