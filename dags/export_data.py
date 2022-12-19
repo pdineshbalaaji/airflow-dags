@@ -99,6 +99,7 @@ def stream_to_S3_fn(result, filename):
     REC_COUNT = 5000
     outfileStr = ""
     results = result.fetchall();
+    print('this is here!!')
     for row in result:
         print(row[0])
     # print
