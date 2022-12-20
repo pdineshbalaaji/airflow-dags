@@ -98,9 +98,8 @@ def stream_to_S3_fn(result, filename):
     print(os.getcwd())
     print(filename)
     allrows=result.all()
-    print(name,": ",str(allrows))
-    s3_hook = S3Hook()
-    s3_client = s3_hook.get_conn()
+    print(str(allrows))
+    
     s3_file = os.getcwd() + '/'+filename+'.csv'
     # only get 10K rows at a time
     REC_COUNT = 5000
@@ -121,6 +120,8 @@ def stream_to_S3_fn(result, filename):
             print(ret)
         ret
     # s3_client.put_object(Bucket=S3_BUCKET+'/'+S3_KEY, Key=filename+'.csv', Body=f.getvalue())/
+    s3_hook = S3Hook()
+    s3_client = s3_hook.get_conn()
     s3_client.load_file(filename=s3_file, key=S3_KEY+filename+'.csv', bucket_name=S3_BUCKET)
 
 # pause all active dags to have consistend and reliable copy of dag history exports
