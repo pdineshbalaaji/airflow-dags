@@ -44,10 +44,10 @@ dag_id = 'db_export'
 # 7b2661a43ba3	142555e44c17	2.2.0	Change TaskInstance and TaskReschedule tables from execution_date to run_id.
 # 142555e44c17	54bebd308c5f	2.2.0	Add data_interval_start and data_interval_end to DagRun
 # 97cdd93827b8	a13f7613ad25	2.1.3	Add queued_at column in dag_run table
-# e165e7455d70	90d1635d7b86	2.1.0	Add description field to Variable model
+# e165e7455d70	90d1635d7b86	2.1.0	Add description field to Variable model replace(run_id, 'scheduled__',  'manual__')
 
 
-DAG_RUN_SELECT = "select dag_id, execution_date, state, replace(run_id, 'scheduled__',  'manual__'), external_trigger, \
+DAG_RUN_SELECT = "select dag_id, execution_date, state, run_id, external_trigger, \
 '\\x' || encode(conf,'hex') as conf, end_date,start_date, run_type, last_scheduling_decision, \
  dag_hash, creating_job_id, null as queued_at, null as data_interval_start, null as data_interval_end  from dag_run"
 
