@@ -132,3 +132,4 @@ dmypy.json
 .idea/*
 
 /dags/import_data.py
+/dags/clean_up.py
