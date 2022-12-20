@@ -116,9 +116,7 @@ def stream_to_S3_fn(result, filename):
             w.writerows(chunk)
             write_io.write(f.getvalue().encode("utf8"))
             print('write_io complete')
-            ret = write_io.close()
-            print(ret)
-        ret
+        write_io.close()
     # s3_client.put_object(Bucket=S3_BUCKET+'/'+S3_KEY, Key=filename+'.csv', Body=f.getvalue())/
     s3_hook = S3Hook()
     s3_client = s3_hook.get_conn()
