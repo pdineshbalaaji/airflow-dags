@@ -61,7 +61,7 @@ ti.pool_slots, ti.queued_by_job_id, ti.external_executor_id, null as trigger_id 
 
 LOG_SELECT = "select dttm, dag_id, task_id, event, execution_date, owner, extra from log"
 
-TASK_FAIL_SELECT = "select task_id, dag_id, run_id, \
+TASK_FAIL_SELECT = "select task_id, dag_id, left(run_id, charindex('__', run_id)-2), \
  start_date, end_date, duration from task_fail"
 
 # TASK_RESCHEDULE = "select task_id, dag_id, execution_date, \
