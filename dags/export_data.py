@@ -120,7 +120,8 @@ def stream_to_S3_fn(result, filename):
         write_io.close()
     # s3_client.put_object(Bucket=S3_BUCKET+'/'+S3_KEY, Key=filename+'.csv', Body=f.getvalue())/
     s3 = boto3.client('s3')
-    s3.meta.client.upload_file(s3_file, S3_BUCKET, S3_KEY+filename+'.csv')
+    s3.Bucket(S3_BUCKET).upload_file(s3_file, S3_KEY+filename+'.csv')
+    # s3.meta.client.upload_file(s3_file, S3_BUCKET, S3_KEY+filename+'.csv')
 
 # pause all active dags to have consistend and reliable copy of dag history exports
 
