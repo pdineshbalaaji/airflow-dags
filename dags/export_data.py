@@ -47,7 +47,7 @@ dag_id = 'db_export'
 # e165e7455d70	90d1635d7b86	2.1.0	Add description field to Variable model
 
 
-DAG_RUN_SELECT = "select dag_id, execution_date, state, run_id, external_trigger, \
+DAG_RUN_SELECT = "select dag_id, execution_date, state, replace(run_id, 'scheduled__',  'manual__'), external_trigger, \
 '\\x' || encode(conf,'hex') as conf, end_date,start_date, run_type, last_scheduling_decision, \
  dag_hash, creating_job_id, null as queued_at, null as data_interval_start, null as data_interval_end  from dag_run"
 
