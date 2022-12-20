@@ -60,10 +60,10 @@ start_pod = EKSPodOperator(
 run_on_EKS=KubernetesPodOperator(
     task_id="run_on_EKS",
     acct_id = "859006846143"
-    acct_id_1 = "190781341368"
+    acct_ida = "190781341368"
     acct_to_use = acct_id
     if(Variable.get("environment").strip() == "acct1"):
-        acct_to_use = acct_id_1
+        acct_to_use = acct_ida
     cluster_context='arn:aws:eks:us-west-2:'+acct_to_use+':cluster/self-managed-airflow',
     namespace="airflow",
     name="example_pod",
