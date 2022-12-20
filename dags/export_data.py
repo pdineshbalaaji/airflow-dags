@@ -97,8 +97,8 @@ OBJECTS_TO_EXPORT = [
 def stream_to_S3_fn(result, filename):
     print(os.getcwd())
     print(filename)
-    allrows=result.all()
-    print(str(allrows))
+    # allrows=result.all()
+    # print(str(allrows))
     
     s3_file = os.getcwd() + '/'+filename+'.csv'
     # only get 10K rows at a time
