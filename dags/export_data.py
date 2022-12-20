@@ -176,6 +176,7 @@ def export_variable():
 
 
 def back_up_activedags():
+    print(S3_BUCKET)
     session = settings.Session()
     session.execute(text(f"drop table if exists active_dags;"))
     session.execute(text(
