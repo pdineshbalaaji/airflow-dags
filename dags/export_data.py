@@ -97,6 +97,8 @@ OBJECTS_TO_EXPORT = [
 def stream_to_S3_fn(result, filename):
     print(os.getcwd())
     print(filename)
+    allrows=result.all()
+    print(name,": ",str(allrows))
     s3_hook = S3Hook()
     s3_client = s3_hook.get_conn()
     s3_file = os.getcwd() + '/'+filename+'.csv'
@@ -104,8 +106,7 @@ def stream_to_S3_fn(result, filename):
     REC_COUNT = 5000
     outfileStr = ""
 
-    allrows=result.all()
-    print(name,": ",str(allrows))
+    
     with open(s3_file, 'wb') as write_io:
         while True:
             chunk = result.fetchmany(REC_COUNT)
