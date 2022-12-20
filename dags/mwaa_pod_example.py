@@ -4,6 +4,7 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import (
     KubernetesPodOperator,
 )
+from airflow.models import Variable
 from airflow.providers.amazon.aws.hooks.eks import ClusterStates, NodegroupStates
 from airflow.providers.amazon.aws.operators.eks import (
     EKSCreateClusterOperator,
@@ -25,7 +26,7 @@ default_args = {
 dag = DAG("kubernetes_pod_example", default_args=default_args, schedule_interval=None)
 
 # use a kube_config stored in s3 dags folder for now
-kube_config_path = "/opt/airflow/dags/repo/dags/kube_config.yaml"
+kube_config_path = "/opt/airflow/dags/repo/dags/kube_config"+Variable.get("environment").strip()+".yaml"
 
 # podRun = KubernetesPodOperator(
 #     namespace="mwaa",
@@ -58,7 +59,12 @@ start_pod = EKSPodOperator(
 
 run_on_EKS=KubernetesPodOperator(
     task_id="run_on_EKS",
-    cluster_context='arn:aws:eks:us-west-2:859006846143:cluster/self-managed-airflow',
+    acct_id = "859006846143"
+    acct1_id = "190781341368"
+    acct_to_use = acct_id
+    if(Variable.get("environment").strip() == "acct1"):
+        acct_to_use = acct1_id
+    cluster_context='arn:aws:eks:us-west-2:'+acct_to_use+':cluster/self-managed-airflow',
     namespace="airflow",
     name="example_pod",
     image='ubuntu',

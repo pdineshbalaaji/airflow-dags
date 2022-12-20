@@ -6,11 +6,13 @@ from airflow.utils.dates import days_ago
 from airflow.models import DagRun, TaskFail, TaskInstance
 import csv, re
 from io import StringIO
+from airflow.models import Variable
 
 DAG_ID = os.path.basename(__file__).replace(".py", "")
 
 MAX_AGE_IN_DAYS = 30 
 S3_BUCKET = 'self-managed-airflow-metadata-backup'
+S3_BUCKET = S3_BUCKET + Variable.get("environment").strip()
 S3_KEY = 'files/export/{0}.csv' 
 
 # You can add other objects to export from the metadatabase,
