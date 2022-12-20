@@ -22,6 +22,7 @@ from airflow.utils.dates import days_ago
 from airflow.models import DAG, DagRun, TaskFail, TaskInstance, Log
 from airflow.models import Variable, Connection
 from airflow.hooks.S3_hook import S3Hook
+import boto3
 from sqlalchemy import text
 import csv
 import re
@@ -118,9 +119,8 @@ def stream_to_S3_fn(result, filename):
             print('write_io complete')
         write_io.close()
     # s3_client.put_object(Bucket=S3_BUCKET+'/'+S3_KEY, Key=filename+'.csv', Body=f.getvalue())/
-    s3_hook = S3Hook()
-    s3_client = s3_hook.get_conn()
-    s3_client.load_file(filename=s3_file, key=S3_KEY+filename+'.csv', bucket_name=S3_BUCKET,replace=False, encrypt=False, gzip=False, acl_policy=None)
+    s3 = boto3.client('s3')
+    s3.meta.client.upload_file(s3_file, S3_BUCKET, S3_KEY+filename+'.csv')
 
 # pause all active dags to have consistend and reliable copy of dag history exports
 
