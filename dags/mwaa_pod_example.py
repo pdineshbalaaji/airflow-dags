@@ -25,6 +25,12 @@ default_args = {
 
 dag = DAG("kubernetes_pod_example", default_args=default_args, schedule_interval=None)
 
+acct_id="859006846143"
+another="190781341368"
+acct_to_use=acct_id
+if(Variable.get("environment").strip() == "acct1"):
+    acct_to_use=another
+
 # use a kube_config stored in s3 dags folder for now
 kube_config_path = "/opt/airflow/dags/repo/dags/kube_config"+Variable.get("environment").strip()+".yaml"
 
@@ -57,13 +63,9 @@ start_pod = EKSPodOperator(
     dag=dag,
 )
 
+
 run_on_EKS=KubernetesPodOperator(
     task_id="run_on_EKS",
-    acct_id="859006846143"
-    another="190781341368"
-    acct_to_use=acct_id
-    if(Variable.get("environment").strip() == "acct1"):
-        acct_to_use=another
     cluster_context='arn:aws:eks:us-west-2:'+acct_to_use+':cluster/self-managed-airflow',
     namespace="airflow",
     name="example_pod",
