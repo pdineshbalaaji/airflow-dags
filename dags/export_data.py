@@ -37,7 +37,7 @@ Before it exports the data, it copies all the active dags and pause the executio
 # S3 bucket where the exported file are
 S3_BUCKET = 'self-managed-airflow-metadata-backup'
 # S3 prefix where the exported file are
-S3_KEY = 'data/migration/2.0.2_to_2.2.2/export/'
+S3_KEY = 'data/migration/export/'
 dag_id = 'db_export'
 
 
